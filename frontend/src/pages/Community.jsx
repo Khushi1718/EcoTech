@@ -21,21 +21,18 @@ export default function Community() {
       .then((data) => setPosts(data))
       .catch((err) => console.log(err));
     */
+    fetch("http://localhost:5001/api/posts")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch posts");
+        }
 
-    // TEMPORARY STATIC DATA FOR FRONTEND DESIGN
-    setPosts([
-      {
-        id: 1,
-        username: "maria",
-        tag: "SAVE WATER",
-        time: "2h ago",
-        image:
-          "https://images.unsplash.com/photo-1542838132-92c53300491e",
-        caption:
-          "Installed a rainwater collection barrel in the backyard. Already saving 200 liters per week for the garden.",
-        likes: 42
-      }
-    ]);
+        return res.json();
+      })
+      .then(data => {
+        setPosts(data);
+      })
+      .catch(err => console.log(err));
 
   }, []);
 
@@ -71,8 +68,9 @@ export default function Community() {
             {/* Later this will render all posts from MongoDB */}
 
             {posts.map((post) => (
-              <PostCard key={post.id} post={post} />
+              <PostCard key={post._id || post.id} post={post} />
             ))}
+
 
             {/* FUTURE FEATURES */}
 

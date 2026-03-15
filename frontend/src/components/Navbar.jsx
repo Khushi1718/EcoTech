@@ -6,25 +6,25 @@ export default function Navbar() {
 
       {/* Logo */}
       <h1 className="text-xl font-semibold text-green-700">
-        ecopulse
+        EcoTech
       </h1>
 
       {/* Navigation */}
       <div className="flex gap-10 text-gray-600 font-medium">
 
         <button className="hover:text-green-600">
-          TRACKER
+          Tracker
         </button>
         <button className="hover:text-green-600">
           Progress
         </button>
 
         <button className="text-green-600 border-b-2 border-green-600 pb-1">
-          COMMUNITY
+          Community
         </button>
 
         <button className="hover:text-green-600">
-          ACCOUNT
+          Account
         </button>
 
       </div>

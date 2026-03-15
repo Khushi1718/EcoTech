@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import CreatePostModal from "./CreatePostModal";
 
 export default function Sidebar() {
+
+  const [openModal, setOpenModal] = useState(false);
 
   const tags = [
     "save water",
@@ -13,17 +16,16 @@ export default function Sidebar() {
 
   const handleNewPost = () => {
 
-    // ⚡ BACKEND CONNECTION WILL HAPPEN HERE
-    // Example later:
-    // navigate("/create-post")
-    // OR open modal to upload image and caption
+    // Open the modal when button is clicked
+    setOpenModal(true);
 
-    console.log("New Post Clicked");
+    // FUTURE OPTION
+    // navigate("/create-post")
 
   };
 
   return (
-    <div className="w-64 border-r h-screen p-6">
+    <div className="w-64 border-r h-screen p-6 bg-white">
 
       {/* New Post Button */}
 
@@ -47,6 +49,14 @@ export default function Sidebar() {
         ))}
 
       </div>
+
+      {/* MODAL COMPONENT */}
+
+      {openModal && (
+        <CreatePostModal
+          closeModal={() => setOpenModal(false)}
+        />
+      )}
 
     </div>
   );
