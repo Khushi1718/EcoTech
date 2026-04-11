@@ -73,7 +73,7 @@ const DailyTracker = () => {
 
       setMessage({
         type: "success",
-        text: "✅ Great job! Your good deed has been logged!",
+        text: "Great job! Your good deed has been logged!",
       });
 
       // Reset form

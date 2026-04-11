@@ -140,6 +140,26 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+       {/* ========== ABOUT US SECTION ========== */}
+      <section id="about" className="py-16 px-6 bg-gradient-to-br from-green-50 via-white to-emerald-50">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12 group">
+            <div className="inline-block">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 group-hover:text-green-600 transition duration-300">About EcoTrack</h2>
+            </div>
+            <div className="w-16 h-1 bg-gradient-to-r from-green-600 to-emerald-600 mx-auto mb-6 group-hover:w-24 transition-all duration-300"></div>
+            <p className="text-sm text-green-600 font-semibold tracking-wide">Our Story & Mission</p>
+          </div>
+          <div className="space-y-5 text-base md:text-lg text-gray-700 leading-relaxed">
+            <p className="hover:text-green-700 hover:translate-x-1 transition duration-300 bg-white bg-opacity-50 p-4 rounded-lg border-l-4 border-green-500">
+              <span className="font-semibold text-green-600">We started EcoTrack</span> because we believed that small actions, when multiplied by millions of people, create massive environmental change. Today, our community can track eco-friendly actions and motivate reducing carbon footprints across the globe.
+            </p>
+            <p className="hover:text-green-700 hover:translate-x-1 transition duration-300 bg-white bg-opacity-50 p-4 rounded-lg border-l-4 border-emerald-500">
+              <span className="font-semibold text-emerald-600">Our mission is simple:</span> empower every individual with data-driven insights to make sustainable choices. We're building a world where eco-consciousness is the norm, not the exception.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* ========== FEATURES SECTION ========== */}
       <section id="features" className="py-20 px-6 bg-white">
