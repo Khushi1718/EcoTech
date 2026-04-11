@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:5001",
+  baseURL: "https://ecotech-nyvt.onrender.com",
 });
 
 // Add auth token to all requests
