@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Leaf, BarChart3, Users, Zap, ChevronDown, LogIn, Activity, TrendingUp, Sparkles } from "lucide-react";
 import Navbar from "../components/Navbar";
+import API from "../api/axios";
 
 export default function HomePage() {
   const location = useLocation();
@@ -48,14 +49,8 @@ export default function HomePage() {
     setContactStatus({ loading: true, success: false, error: null });
 
     try {
-      const response = await fetch("http://localhost:5001/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(contactForm),
-      });
-
+      const response = await API.post("/api/contact", contactForm);
+    
       const data = await response.json();
 
       if (response.ok && data.success) {
