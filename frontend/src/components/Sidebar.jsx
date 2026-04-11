@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CreatePostModal from "./CreatePostModal";
 
-export default function Sidebar() {
+export default function Sidebar({ onPostSuccess }) {
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -24,6 +24,14 @@ export default function Sidebar() {
 
   };
 
+  const handlePostSuccess = (newPost) => {
+    setOpenModal(false);
+    // Call parent callback to refresh posts
+    if (onPostSuccess) {
+      onPostSuccess(newPost);
+    }
+  };
+
   return (
     <div className="w-64 border-r h-screen p-6 bg-white">
 
@@ -31,7 +39,7 @@ export default function Sidebar() {
 
       <button
         onClick={handleNewPost}
-        className="w-full bg-green-700 text-white py-3 rounded-md mb-8"
+        className="w-full bg-green-700 text-white py-3 rounded-md mb-8 font-semibold hover:bg-green-800 transition"
       >
         + new post
       </button>
@@ -55,6 +63,7 @@ export default function Sidebar() {
       {openModal && (
         <CreatePostModal
           closeModal={() => setOpenModal(false)}
+          onPostSuccess={handlePostSuccess}
         />
       )}
 

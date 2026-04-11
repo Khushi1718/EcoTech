@@ -65,14 +65,28 @@ export default function Community() {
     setSelectedTag(selectedTag === tag ? null : tag);
   };
 
+  const handlePostSuccess = (newPost) => {
+    // Refresh posts when a new post is created
+    fetchPosts();
+    // Optional: Show success notification
+    console.log("New post created:", newPost);
+  };
+
   return (
     <div className="bg-white min-h-screen">
       {/* NAVBAR */}
       <Navbar />
 
       <div className="flex pt-20">
-        {/* LEFT SIDEBAR - TAGS SECTION */}
+        {/* LEFT SIDEBAR - TAGS + NEW POST BUTTON */}
+        
         <div className="w-64 bg-gray-50 border-r border-gray-200 p-6 min-h-[calc(100vh-80px)]">
+          {/* NEW POST BUTTON */}
+          <div className="mb-6">
+            <Sidebar onPostSuccess={handlePostSuccess} />
+          </div>
+
+          {/* TAG FILTER SECTION */}
           <h3 className="text-lg font-bold text-gray-900 mb-4">Filter by Tag</h3>
 
           <div className="space-y-2">
@@ -90,6 +104,7 @@ export default function Community() {
               </button>
             ))}
           </div>
+          
 
           {selectedTag && (
             <button

@@ -13,7 +13,8 @@ export default function CreatePostModal({ closeModal, onPostSuccess }) {
     try {
       const user = localStorage.getItem("user");
       const parsedUser = user ? JSON.parse(user) : {};
-      return [parsedUser.name || "User", parsedUser.id];
+      // Handle both signup (id) and login (_id) user objects
+      return [parsedUser.name || "User", parsedUser._id || parsedUser.id];
     } catch {
       return ["User", null];
     }
@@ -54,11 +55,17 @@ export default function CreatePostModal({ closeModal, onPostSuccess }) {
         });
 
         console.log("Post created:", response.data);
-        alert("Post created successfully!");
         
+        // Reset form
+        setImage(null);
+        setCaption("");
+        setTag("");
+        
+        // Close modal and trigger refresh via callback
         closeModal();
-        if (onPostSuccess) onPostSuccess();
-        window.location.reload();
+        if (onPostSuccess) {
+          onPostSuccess(response.data);
+        }
 
       } catch (error) {
         console.error("Post creation error:", error);
