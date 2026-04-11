@@ -583,13 +583,13 @@ export default function HomePage() {
 
             <div>
               <h4 className="font-semibold mb-4 text-lg">Contact</h4>
-              <p className="text-gray-400">Email: ecotrack@google.com</p>
+              <p className="text-gray-400">Email: ecotrack@gmail.com</p>
             </div>
           </div>
 
           <div className="border-t border-gray-800 pt-8">
             <div className="text-center text-gray-400">
-              <p>© 2024 EcoTrack. All rights reserved. | Built with 💚 for a sustainable future.</p>
+              <p>© 2026 EcoTrack. All rights reserved. | Built with 💚 for a sustainable future.</p>
             </div>
           </div>
         </div>
