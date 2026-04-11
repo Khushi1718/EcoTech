@@ -6,8 +6,15 @@ import { motion } from "framer-motion";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Check auth status
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, [location]);
 
   // Track scroll for navbar shrink effect - FIXED WITH USEEFFECT
   useEffect(() => {
@@ -23,7 +30,7 @@ export default function Navbar() {
     if (href.startsWith("#")) {
       // For FAQ and Contact, navigate to home with hash
       if (location.pathname !== "/home" && location.pathname !== "/") {
-        navigate(`/${href}`);
+        navigate(`/home${href}`);
       } else {
         // Already on home, just scroll
         const element = document.querySelector(href);
@@ -81,19 +88,36 @@ export default function Navbar() {
               <button
                 key={link.label}
                 onClick={() => handleNavigate(link.href)}
-                className="text-gray-600 hover:text-green-600 transition font-medium text-sm cursor-pointer bg-none border-none"
+                className="text-gray-600 hover:text-green-600 transition font-medium text-sm cursor-pointer bg-none border-none hover:scale-105"
               >
                 {link.label}
               </button>
             ))}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              onClick={handleLogout}
-              className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition font-medium text-sm"
-            >
-              <LogOut size={16} />
-              Logout
-            </motion.button>
+            {isLoggedIn ? (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                onClick={handleLogout}
+                className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition font-medium text-sm"
+              >
+                <LogOut size={16} />
+                Logout
+              </motion.button>
+            ) : (
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => navigate("/login")}
+                  className="text-gray-600 hover:text-green-600 font-medium text-sm hover:scale-105 transition"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => navigate("/signup")}
+                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition hover:scale-105"
+                >
+                  Signup
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}

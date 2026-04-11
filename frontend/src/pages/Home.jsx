@@ -107,7 +107,7 @@ export default function HomePage() {
               </button>
               <button
                 onClick={() => navigate("/community")}
-                className="border-2 border-green-600 text-green-600 hover:bg-green-50 px-8 py-4 rounded-xl font-semibold transition text-lg hover:shadow-lg"
+                className="border-2 border-green-600 text-green-600 hover:bg-green-50 px-8 py-4 rounded-xl font-semibold transition text-lg hover:shadow-lg hover:scale-105"
               >
                 Join Community
               </button>
@@ -165,9 +165,9 @@ export default function HomePage() {
             ].map((feature, idx) => (
               <div
                 key={idx}
-                className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition"
+                className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
               >
-                <div className="bg-green-100 w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                <div className="bg-green-100 w-16 h-16 rounded-xl flex items-center justify-center mb-6 hover:bg-green-200 transition">
                   <feature.icon size={32} className="text-green-600" />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
@@ -209,24 +209,24 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             {[
               {
-                author: "Alex Green",
+                author: "Aarav Sharma",
                 title: "Cut plastic usage by 50% this month!",
-                impact: "🌱 Saved 15 kg CO₂",
+                impact: "Saved 15 kg CO₂",
               },
               {
-                author: "Sam Eco",
+                author: "Priya Verma",
                 title: "Switched to public transport - feeling great!",
-                impact: "🌱 Saved 32 kg CO₂",
+                impact: "Saved 32 kg CO₂",
               },
               {
-                author: "Jordan Blue",
+                author: "Rohan Gupta",
                 title: "Started composting kitchen waste",
-                impact: "🌱 Saved 8 kg CO₂",
+                impact: "Saved 8 kg CO₂",
               },
             ].map((post, idx) => (
               <div
                 key={idx}
-                className="bg-gradient-to-br from-green-50 to-white p-6 rounded-2xl border border-green-100 shadow-lg"
+                className="bg-gradient-to-br from-green-50 to-white p-6 rounded-2xl border border-green-100 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-12 bg-green-600 rounded-full text-white flex items-center justify-center font-bold">
@@ -246,9 +246,9 @@ export default function HomePage() {
           <div className="text-center">
             <button
               onClick={() => navigate("/community")}
-              className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-semibold transition text-lg"
+              className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-semibold transition text-lg hover:scale-105 shadow-lg hover:shadow-xl"
             >
-              Explore Community →
+              Explore Community
             </button>
           </div>
         </div>
@@ -390,31 +390,31 @@ export default function HomePage() {
               <h4 className="font-semibold mb-4 text-lg">Resources</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
-                  <a href="#faq" className="hover:text-green-400 transition">
+                  <a href="#faq" className="hover:text-green-400 transition hover:scale-105 inline-block">
                     FAQ
                   </a>
                 </li>
                 <li>
-                  <a href="#contact" className="hover:text-green-400 transition">
+                  <a href="#contact" className="hover:text-green-400 transition hover:scale-105 inline-block">
                     Contact Us
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-green-400 transition">
-                    Privacy Policy
-                  </a>
+                  <button onClick={() => navigate("/home")} className="hover:text-green-400 transition hover:scale-105">
+                    About Us
+                  </button>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-green-400 transition">
-                    Terms of Service
-                  </a>
+                  <button onClick={() => navigate("/home")} className="hover:text-green-400 transition hover:scale-105">
+                    Features
+                  </button>
                 </li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-semibold mb-4 text-lg">Contact</h4>
-              <p className="text-gray-400 mb-2">Email: hello@ecotrack.com</p>
+              <p className="text-gray-400 mb-2">Email: ecotrack@google.com</p>
               <p className="text-gray-400">Phone: +1 (555) 123-4567</p>
             </div>
           </div>
