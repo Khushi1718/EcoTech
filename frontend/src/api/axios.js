@@ -6,7 +6,7 @@ import axios from "axios";
 const baseURL =
   window.location.hostname === "localhost"
     ? "http://localhost:5001"
-    : "https://eco-tech-backend.onrender.com";
+    : "https://ecotech-nyvt.onrender.com";
 
 const instance = axios.create({ baseURL });
 

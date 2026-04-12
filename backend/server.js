@@ -72,31 +72,26 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-// CORS
-// app.use(cors());
-app.use(cors({
-  origin: "https://eco-tech-8a1a.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true
-}));
-
+// ✅ CORS Configuration - Single, proper setup
 const corsOptions = {
-  origin: "https://eco-tech-8a1a.vercel.app",
-  credentials: true,
+  origin: [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://eco-tech-8a1a.vercel.app",
+    process.env.FRONTEND_URL
+  ].filter(Boolean),
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 };
 
 app.use(cors(corsOptions));
 
-// ✅ Proper preflight handler (WORKING FIX)
+// ✅ Explicit preflight handler
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://eco-tech-8a1a.vercel.app");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-
   if (req.method === "OPTIONS") {
-    return res.sendStatus(200); // 🔥 MOST IMPORTANT
+    return res.sendStatus(200);
   }
-
   next();
 });
 // Middleware
