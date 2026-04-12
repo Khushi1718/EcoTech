@@ -79,37 +79,36 @@ export default function Community() {
 
       <div className="flex pt-20">
         {/* LEFT SIDEBAR - TAGS + NEW POST BUTTON */}
-        
-        <div className="w-64 bg-gray-50 border-r border-gray-200 p-6 min-h-[calc(100vh-80px)]">
+        <div className="w-64 bg-gray-50 border-r border-gray-200 p-6 flex flex-col items-start gap-0">
           {/* NEW POST BUTTON */}
-          <div className="mb-6">
+          <div className="mb-2 w-full">
             <Sidebar onPostSuccess={handlePostSuccess} />
           </div>
 
           {/* TAG FILTER SECTION */}
-          <h3 className="text-lg font-bold text-gray-900 mb-4">Filter by Tag</h3>
+          <h3 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">Filter by Tag</h3>
 
-          <div className="space-y-2">
+          <div className="space-y-2 w-full">
             {tags.map((tag) => (
               <button
                 key={tag}
                 onClick={() => handleTagClick(tag)}
-                className={`w-full text-left px-4 py-3 rounded-lg border-2 transition font-medium capitalize ${
+                className={`w-full text-left px-3 py-2 rounded-lg border border-2 transition font-medium capitalize text-sm ${
                   selectedTag === tag
-                    ? "bg-green-50 border-green-600 text-green-900"
-                    : "bg-white border-gray-200 text-gray-700 hover:border-green-300 hover:bg-green-50"
+                    ? "bg-green-100 border-green-500 text-green-700 shadow-sm"
+                    : "bg-white border-gray-300 text-gray-600 hover:border-green-400 hover:bg-green-50"
                 }`}
               >
                 {tag}
               </button>
             ))}
           </div>
-          
 
+          {/* CLEAR FILTER BUTTON */}
           {selectedTag && (
             <button
               onClick={() => setSelectedTag(null)}
-              className="w-full mt-4 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-medium flex items-center justify-center gap-2"
+              className="w-full mt-4 px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition font-medium flex items-center justify-center gap-2 text-sm border border-red-200"
             >
               <X className="w-4 h-4" />
               Clear Filter

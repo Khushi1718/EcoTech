@@ -33,7 +33,7 @@ export default function Sidebar({ onPostSuccess }) {
   };
 
   return (
-    <div className="w-64 border-r h-screen p-6 bg-white">
+    <div className="w-64 border-r p-6 bg-white">
 
       {/* New Post Button */}
 
@@ -46,17 +46,8 @@ export default function Sidebar({ onPostSuccess }) {
 
       {/* Tags */}
 
-      <h3 className="text-gray-500 text-sm mb-4">TAGS</h3>
+    
 
-      <div className="flex flex-col gap-4 text-gray-600">
-
-        {tags.map((tag, index) => (
-          <span key={index} className="cursor-pointer hover:text-green-600">
-            {tag}
-          </span>
-        ))}
-
-      </div>
 
       {/* MODAL COMPONENT */}
 
