@@ -156,6 +156,31 @@ export default function Login() {
 </div>
 
 
+              {/* Demo Credentials */}
+              <div className="flex flex-wrap justify-center gap-2 mt-2 mb-2">
+                <button
+                  type="button"
+                  onClick={() => { setIdentifier('admin@demo.com'); setPassword('admin123'); }}
+                  className="px-3 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-100 rounded-full hover:bg-emerald-200 transition-colors border border-emerald-200 shadow-sm"
+                >
+                  Admin Demo
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setIdentifier('employee@demo.com'); setPassword('emp123'); }}
+                  className="px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-full hover:bg-blue-200 transition-colors border border-blue-200 shadow-sm"
+                >
+                  Employee Demo
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setIdentifier('superadmin@demo.com'); setPassword('super123'); }}
+                  className="px-3 py-1.5 text-xs font-medium text-purple-700 bg-purple-100 rounded-full hover:bg-purple-200 transition-colors border border-purple-200 shadow-sm"
+                >
+                  Superadmin Demo
+                </button>
+              </div>
+
               {/* Button */}
               <button
                 type="submit"
