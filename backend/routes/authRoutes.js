@@ -44,7 +44,24 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { identifier, password } = req.body;
 
-  const user = await User.findOne({ email: identifier });
+  let user = await User.findOne({ email: identifier });
+
+  // Auto-create demo accounts if they don't exist
+  const demoAccounts = ["admin@demo.com", "employee@demo.com", "superadmin@demo.com"];
+  if (!user && demoAccounts.includes(identifier)) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    let name = "Demo User";
+    if (identifier.includes("admin")) name = "Admin Demo";
+    if (identifier.includes("employee")) name = "Employee Demo";
+    if (identifier.includes("superadmin")) name = "Superadmin Demo";
+    
+    user = new User({
+      name,
+      email: identifier,
+      password: hashedPassword,
+    });
+    await user.save();
+  }
 
   if (!user) {
     return res.status(400).json({ error: "User not found" });
