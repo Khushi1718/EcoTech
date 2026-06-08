@@ -1,70 +1,31 @@
 const DailyLog = require("../models/DailyLog");
 const TrackerEntry = require("../models/TrackerEntry");
+const { predictCO2 } = require("../services/predictionService");
+const { generateSuggestions } = require("../services/aiService");
 
-// ========== AI SUGGESTION LOGIC ==========
+// ========== CATEGORIZE IMPACT BASED ON PREDICTED CO2 VALUE ==========
 
-const generateSuggestions = (category, data) => {
-  const suggestions = [];
+/**
+ * Categorize impact level based on predicted CO2 emission value
+ * Uses dynamic thresholds based on historical data percentiles
+ */
+const categorizeImpact = (co2Value, category) => {
+  // Dynamic thresholds based on typical CO2 emissions
+  const thresholds = {
+    "Food Wastage": { high: 2.0, medium: 1.0 },
+    "Carbon Footprint": { high: 10.0, medium: 5.0 },
+    "Electricity Usage": { high: 5.0, medium: 2.5 },
+  };
 
-  if (category === "Food Wastage") {
-    const qty = data.quantity || 0;
-    suggestions.push("Store leftovers in airtight containers");
-    if (qty > 0.5) suggestions.push("Reduce portion sizes");
-    suggestions.push("Compost food scraps");
-  } else if (category === "Carbon Footprint") {
-    const mode = data.travelMode;
-    if (mode === "car") {
-      suggestions.push("Try carpooling or public transport");
-      suggestions.push("Use bike for short distances");
-    } else if (mode === "public_transport") {
-      suggestions.push("Great choice! Keep using public transport");
-    }
-    suggestions.push("Walk or cycle for distances under 5km");
-  } else if (category === "Electricity Usage") {
-    suggestions.push("Switch to LED bulbs");
-    suggestions.push("Turn off devices when not in use");
-    if (data.units > 5) suggestions.push("Use energy-efficient appliances");
-  }
+  const categoryThresholds = thresholds[category] || { high: 10, medium: 5 };
 
-  return suggestions.slice(0, 3);
-};
-
-// Calculate prediction based on inputs
-const calculateCO2 = (category, data) => {
-  if (category === "Food Wastage") {
-    return (data.quantity || 0) * 2.5; // 1kg food = 2.5kg CO2
-  } else if (category === "Carbon Footprint") {
-    const factors = {
-      car: 0.21,
-      bike: 0.1,
-      public_transport: 0.05,
-    };
-    const factor = factors[data.travelMode] || 0.1;
-    return ((data.distance || 0) * factor).toFixed(2);
-  } else if (category === "Electricity Usage") {
-    return ((data.units || 0) * 0.5).toFixed(2); // 1kWh = 0.5kg CO2
-  }
-  return 0;
-};
-
-const categorizeImpact = (category, data) => {
-  if (category === "Food Wastage") {
-    const qty = data.quantity || 0;
-    if (qty > 1) return "HIGH";
-    if (qty > 0.5) return "MEDIUM";
-    return "LOW";
-  } else if (category === "Carbon Footprint") {
-    const dist = data.distance || 0;
-    if (dist > 50) return "HIGH";
-    if (dist > 10) return "MEDIUM";
-    return "LOW";
-  } else if (category === "Electricity Usage") {
-    const units = data.units || 0;
-    if (units > 10) return "HIGH";
-    if (units > 5) return "MEDIUM";
+  if (co2Value >= categoryThresholds.high) {
+    return "HIGH";
+  } else if (co2Value >= categoryThresholds.medium) {
+    return "MEDIUM";
+  } else {
     return "LOW";
   }
-  return "MEDIUM";
 };
 
 // ========== GOOD WORK LOG ENDPOINTS ==========
@@ -146,10 +107,22 @@ exports.trackActivity = async (req, res) => {
       units,
     };
 
-    const suggestions = generateSuggestions(category, data);
-    const estimatedCO2 = calculateCO2(category, data);
-    const impactLevel = categorizeImpact(category, data);
+    // ========== STEP 1: USE ML MODEL FOR CO2 PREDICTION ==========
+    console.log(`📊 Tracking activity: ${category}`);
+    const predictionResult = await predictCO2(category, data);
+    const estimatedCO2 = predictionResult.predicted_co2;
+    const modelConfidence = predictionResult.confidence;
 
+    // ========== STEP 2: CATEGORIZE IMPACT BASED ON PREDICTED VALUE ==========
+    const impactLevel = categorizeImpact(estimatedCO2, category);
+
+    // ========== STEP 3: GENERATE AI SUGGESTIONS USING OPENAI ==========
+    const suggestionResult = await generateSuggestions(category, data, predictionResult);
+    const suggestions = Array.isArray(suggestionResult.suggestions) 
+      ? suggestionResult.suggestions 
+      : suggestionResult;
+
+    // ========== STEP 4: SAVE TO DATABASE ==========
     const entry = new TrackerEntry({
       userId,
       category,
@@ -161,19 +134,32 @@ exports.trackActivity = async (req, res) => {
       estimatedCO2,
       impactLevel,
       suggestions,
+      modelConfidence,
+      predictionSource: predictionResult.source,
+      suggestionSource: suggestionResult.source,
     });
 
     await entry.save();
 
+    // ========== STEP 5: RETURN RESPONSE ==========
     res.status(201).json({
       message: "Activity tracked successfully",
       entry,
+      prediction: {
+        predicted_co2: estimatedCO2,
+        confidence: modelConfidence,
+        model_type: predictionResult.model_type,
+        source: predictionResult.source,
+      },
       suggestions,
       impactLevel,
-      estimatedCO2,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Error tracking activity:", error);
+    res.status(500).json({ 
+      message: error.message,
+      error: error.toString()
+    });
   }
 };
 

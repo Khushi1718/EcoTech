@@ -35,20 +35,39 @@ const TrackerEntrySchema = new mongoose.Schema(
       default: 0,
       description: "kWh consumed",
     },
-    // AI Analysis
+    // AI Analysis - ML Model Prediction
     estimatedCO2: {
       type: Number,
       default: 0,
-      description: "kg CO2 emitted",
+      description: "kg CO2 emitted (predicted by ML model)",
     },
     impactLevel: {
       type: String,
       enum: ["LOW", "MEDIUM", "HIGH"],
       default: "MEDIUM",
     },
+    modelConfidence: {
+      type: Number,
+      default: 0.5,
+      description: "ML model prediction confidence score (0-1)",
+    },
+    predictionSource: {
+      type: String,
+      enum: ["ml_model", "fallback"],
+      default: "ml_model",
+      description: "Whether prediction came from ML model or fallback logic",
+    },
+    // AI-Generated Suggestions
     suggestions: {
       type: [String],
       default: [],
+      description: "AI-generated eco-friendly suggestions",
+    },
+    suggestionSource: {
+      type: String,
+      enum: ["openai", "fallback"],
+      default: "openai",
+      description: "Whether suggestions came from OpenAI or fallback logic",
     },
     date: {
       type: Date,
