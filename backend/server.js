@@ -78,6 +78,7 @@ const corsOptions = {
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "https://eco-tech-8a1a.vercel.app",
+    "https://crop-predictor-wvyh.vercel.app",
     process.env.FRONTEND_URL
   ].filter(Boolean),
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
